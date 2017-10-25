@@ -23,5 +23,7 @@ wget  http://developer.download.nvidia.com/compute/cuda/7.5/Prod/local_installer
 chmod +x cuda_7.5.18_linux.run && \
 ./cuda_7.5.18_linux.run --silent --toolkit --override && \
 rm cuda_7.5.18_linux.run
+RUN echo 'export PATH=$PATH:/usr/local/cuda/bin' >> /etc/profile.d/theano.sh
+RUN echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64' >> /etc/profile.d/theano.sh
 # set default command
 ENTRYPOINT ["/bin/bash"]
