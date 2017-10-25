@@ -22,7 +22,7 @@ for example
 ```
 runDocker.sh jmacey/nccabase 
 
-ot@1b0c4814a3cf /]# nvidia-smi
+[root@1b0c4814a3cf /]# nvidia-smi
 Wed Oct 25 15:03:24 2017
 +-----------------------------------------------------------------------------+
 | NVIDIA-SMI 375.66                 Driver Version: 375.66                    |
