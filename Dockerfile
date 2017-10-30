@@ -7,10 +7,7 @@ MAINTAINER Jon Macey  <jmacey@bournemouth.ac.uk>
 RUN yum update -y
 RUN yum install -y wget
 # instal the epel release repo (for SDL2 etc etc)
-RUN cd /tmp && \
-wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-10.noarch.rpm && \
-rpm -ivh epel-release-7-10.noarch.rpm && \
-rm epel-release-7-10.noarch.rpm && \
+RUN yum install -y epel-release && \
 yum update -y 
 
 # install dev tools
@@ -30,20 +27,20 @@ RUN cd /opt && \
   ./NVIDIA-Linux-x86_64-375.66.run  -s -N --no-kernel-module  && \
   rm NVIDIA-Linux-x86_64-375.66.run
 # install Qt 
-RUN cd /tmp && \
-wget http://download.qt.io/official_releases/qt/5.9/5.9.0/single/qt-everywhere-opensource-src-5.9.0.tar.xz &>/dev/null && \
-tar vfxJ qt-everywhere-opensource-src-5.9.0.tar.xz && \
-cd qt-everywhere-opensource-src-5.9.0 && \
-./configure -confirm-license -opensource  \
--nomake examples -nomake tests \
--no-compile-examples  -no-xcb  -prefix "/opt/qt" && \
-make -j 12 && \
-make install &&
-# Setup User and Home
-USER ncca
+RUN cd /tmp  && \
+wget http://download.qt.io/official_releases/qt/5.9/5.9.0/single/qt-everywhere-opensource-src-5.9.0.tar.xz  &>/dev/null && \
+tar fxJ qt-everywhere-opensource-src-5.9.0.tar.xz && \
+cd qt-everywhere-opensource-src-5.9.0  && \
+./configure -confirm-license -opensource  -nomake examples -nomake tests -no-compile-examples  -no-xcb  -prefix "/opt/qt" && \
+make -j 12  && \
+make install && \
+cd /tmp && rm -rf qt-everywhere-opensource-src-5.9.0 && \
+rm /tmp/qt-everywhere-opensource-src-5.9.0.tar.xz 
+# Setup  Home
 WORKDIR /home/ncca
 ENV HOME /home/ncca
-
+# add qt to path
+ENV PATH=${PATH}:/opt/qt/bin
 
 # set default command
 ENTRYPOINT ["/bin/bash"]
