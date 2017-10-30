@@ -29,6 +29,20 @@ RUN cd /opt && \
   chmod +x NVIDIA-Linux-x86_64-375.66.run && \
   ./NVIDIA-Linux-x86_64-375.66.run  -s -N --no-kernel-module  && \
   rm NVIDIA-Linux-x86_64-375.66.run
+# install Qt 
+RUN cd /tmp && \
+wget http://download.qt.io/official_releases/qt/5.9/5.9.0/single/qt-everywhere-opensource-src-5.9.0.tar.xz &>/dev/null && \
+tar vfxJ qt-everywhere-opensource-src-5.9.0.tar.xz && \
+cd qt-everywhere-opensource-src-5.9.0 && \
+./configure -confirm-license -opensource  \
+-nomake examples -nomake tests \
+-no-compile-examples  -no-xcb  -prefix "/opt/qt" && \
+make -j 12 && \
+make install &&
+# Setup User and Home
+USER ncca
+WORKDIR /home/ncca
+ENV HOME /home/ncca
 
 
 # set default command
