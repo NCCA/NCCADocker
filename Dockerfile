@@ -19,7 +19,7 @@ yum install -y wget && \
 yum install -y vim && \ 
 yum install -y ImageMagick-c++.x86_64 \
 SDL2-devel.x86_64  SDL2_image-devel.x86_64 SDL2_mixer-devel.x86_64 \
-SDL2_ttf-devel.x86_64 SDL2_net-devel.x86_64 boost-devel.x86_64
+SDL2_ttf-devel.x86_64 SDL2_net-devel.x86_64 boost-devel.x86_64 glew
 
 # install same nVidia drivers as in Lab
 # If you are using at home you may need to change the driver version to match your own
@@ -39,6 +39,10 @@ make -j 12  && \
 make install && \
 cd /tmp && rm -rf qt-everywhere-opensource-src-5.9.0 && \
 rm /tmp/qt-everywhere-opensource-src-5.9.0.tar.xz 
+# download and copy glm header to /usr/include
+RUN git clone https://github.com/g-truc/glm && \
+cd glm && git checkout && git checkout 0.9.8 && \
+cp -r glm /usr/include/
 # Setup  Home
 WORKDIR /home/ncca
 ENV HOME /home/ncca
