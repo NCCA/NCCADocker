@@ -26,8 +26,11 @@ chmod +x NVIDIA-Linux-x86_64-375.66.run && \
 rm NVIDIA-Linux-x86_64-375.66.run
 # Clone and build Unreal
 
-
-
+#thin up the whole images taken from here https://github.com/tweakmy/ue4-in-docker/blob/master/Dockerfile
+RUN apt-get autoremove
+RUN apt-get autoclean
+RUN useradd -ms /bin/bash ncca
+RUN adduser ncca sudo
 # Setup  Home
 WORKDIR /home/ncca
 ENV HOME /home/ncca
