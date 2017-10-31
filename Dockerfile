@@ -1,23 +1,23 @@
 #set the base image
 FROM centos:7
-ARG nvidiaRun=NVIDIA-Linux-x86_64-375.66.run
-ARG nvidiaLocation=http://us.download.nvidia.com/XFree86/Linux-x86_64/375.66/NVIDIA-Linux-x86_64-375.66.run
 # Dockerfile author / maintainer 
 MAINTAINER Jon Macey  <jmacey@bournemouth.ac.uk> 
+# Set some arguments for finding the nvidia drivers
+ARG nvidiaRun=NVIDIA-Linux-x86_64-375.66.run
+ARG nvidiaLocation=http://us.download.nvidia.com/XFree86/Linux-x86_64/375.66/NVIDIA-Linux-x86_64-375.66.run
 
 # Update Yum 
-RUN yum update -y
-RUN yum install -y wget
 # instal the epel release repo (for SDL2 etc etc)
 RUN yum install -y epel-release && \
 yum update -y 
 
-# install dev tools
-RUN yum update -y  && yum groupinstall 'Development Tools' -y 
-RUN yum install -y cmake* clang* 
-
-# INSTALL NCCA Dev libs 
-RUN yum install -y ImageMagick-c++.x86_64 \
+# install dev tools and required libs for NCCA dev
+# these are all on one line as it makes it more cache friendly
+RUN yum update -y  && yum groupinstall 'Development Tools' -y && \
+yum install -y cmake* clang* && \
+yum install -y wget && \
+yum install -y vim && \ 
+yum install -y ImageMagick-c++.x86_64 \
 SDL2-devel.x86_64  SDL2_image-devel.x86_64 SDL2_mixer-devel.x86_64 \
 SDL2_ttf-devel.x86_64 SDL2_net-devel.x86_64 boost-devel.x86_64
 
