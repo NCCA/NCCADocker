@@ -1,5 +1,7 @@
 #set the base image
 FROM centos:7
+ARG nvidiaRun=NVIDIA-Linux-x86_64-375.66.run
+ARG nvidiaLocation=http://us.download.nvidia.com/XFree86/Linux-x86_64/375.66/NVIDIA-Linux-x86_64-375.66.run
 # Dockerfile author / maintainer 
 MAINTAINER Jon Macey  <jmacey@bournemouth.ac.uk> 
 
@@ -21,11 +23,12 @@ SDL2_ttf-devel.x86_64 SDL2_net-devel.x86_64 boost-devel.x86_64
 
 # install same nVidia drivers as in Lab
 # If you are using at home you may need to change the driver version to match your own
+RUN echo "Downloading Nvidia ${nvidiaLocation} ${nvidiaRun} "
 RUN cd /opt && \
-  wget http://us.download.nvidia.com/XFree86/Linux-x86_64/375.66/NVIDIA-Linux-x86_64-375.66.run &>/dev/null && \
-  chmod +x NVIDIA-Linux-x86_64-375.66.run && \
-  ./NVIDIA-Linux-x86_64-375.66.run  -s -N --no-kernel-module  && \
-  rm NVIDIA-Linux-x86_64-375.66.run
+  wget ${nvidiaLocation}   && \
+  chmod +x $nvidiaRun  && \
+  ./$nvidiaRun  -s -N --no-kernel-module  && \
+  rm $nvidiaRun
 # install Qt 
 RUN cd /tmp  && \
 wget http://download.qt.io/official_releases/qt/5.9/5.9.0/single/qt-everywhere-opensource-src-5.9.0.tar.xz  &>/dev/null && \
