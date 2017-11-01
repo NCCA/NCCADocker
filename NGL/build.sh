@@ -1,4 +1,4 @@
 #!/bin/bash
 # get driver version
 
-docker build  -t jmacey/ngl --rm . 
+docker build  --no-cache -t jmacey/ngl --rm . 

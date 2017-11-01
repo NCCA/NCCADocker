@@ -11,7 +11,7 @@ WORKDIR /home/ncca
 ENV HOME /home/ncca
 # add qt to path
 ENV PATH=${PATH}:/opt/qt/bin
-RUN git clone https://github.com:/NCCA/NGL && \
+RUN git clone --depth 1 https://github.com:/NCCA/NGL && \
 cd NGL && qmake && make -j 12 
 
 # set default command

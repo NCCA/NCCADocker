@@ -29,16 +29,31 @@ RUN cd /opt && \
   chmod +x $nvidiaRun  && \
   ./$nvidiaRun  -s -N --no-kernel-module  && \
   rm $nvidiaRun
-# install Qt 
-RUN cd /tmp  && \
-wget http://download.qt.io/official_releases/qt/5.9/5.9.0/single/qt-everywhere-opensource-src-5.9.0.tar.xz  &>/dev/null && \
-tar fxJ qt-everywhere-opensource-src-5.9.0.tar.xz && \
-cd qt-everywhere-opensource-src-5.9.0  && \
-./configure -confirm-license -opensource  -nomake examples -nomake tests -no-compile-examples  -no-xcb  -prefix "/opt/qt" && \
-make -j 12  && \
-make install && \
-cd /tmp && rm -rf qt-everywhere-opensource-src-5.9.0 && \
-rm /tmp/qt-everywhere-opensource-src-5.9.0.tar.xz 
+# install Qt based on VFX reference platform  here https://github.com/mottosso/vfxplatform-docker/blob/master/Dockerfile-2018v3
+# Clone git repositories
+RUN cd /tmp && \
+    git clone --recursive --branch 5.6.1 https://code.qt.io/qt/qt5.git qt5 && \
+    rm -rf qt5/qtbase && \
+    rm -rf qt5/qtx11extras && \
+    git clone --recursive --branch adsk-contrib/vfx/5.6.1 https://github.com/autodesk-forks/qtbase.git qt5/qtbase && \
+    git clone --recursive --branch adsk-contrib/vfx/5.6.1 https://github.com/autodesk-forks/qtx11extras.git qt5/qtx11extras && \
+    git clone --recursive --branch 5.6 https://codereview.qt-project.org/pyside/pyside-setup pyside-setup
+
+# will move this earlier in next build
+RUN  yum install -y python-libs python-devel python-pip && \
+    yum install -y libXrender* libxcb* xcb* fontconfig* freetype* libXi* libXext* libX11* libSM* libICE* libglib* libpthread* gstreamer* \
+                   bison* flex* gperf* libicu-devel libxslt-devel ruby \
+                   libgcrypt-devel libgcrypt pciutils-devel nss-devel libXtst-devel gperf cups-devel pulseaudio-libs-devel libgudev1-devel systemd-devel libcap-devel alsa-lib-devel flex bison ruby gcc-c++ dbus libXrandr-devel libXcomposite-devel libXcursor-devel dbus-devel fontconfig-devel && \
+    yum install -y libxslt libxml2 libxml2-devel libxslt-devel cmake3 openssl*
+
+# Configure, build and install Autodesk-forked Qt5
+RUN cd /tmp/qt5 && \
+    ./configure -opensource -confirm-license -nomake examples -nomake tests -prefix ="/opt/qt"
+RUN cd /tmp/qt5 && \
+    make -j 12
+RUN cd /tmp/qt5 && \
+    make install
+RUN rm -rf /tmp/qt5
 # download and copy glm header to /usr/include
 RUN git clone https://github.com/g-truc/glm && \
 cd glm && git checkout && git checkout 0.9.8 && \
