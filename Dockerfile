@@ -13,13 +13,16 @@ yum update -y
 
 # install dev tools and required libs for NCCA dev
 # these are all on one line as it makes it more cache friendly
-RUN yum update -y  && yum groupinstall 'Development Tools' -y && \
-yum install -y cmake* clang* && \
-yum install -y wget && \
-yum install -y vim && \ 
+RUN yum groupinstall 'Development Tools' -y && \
+yum install -y clang* wget vim && \ 
 yum install -y ImageMagick-c++.x86_64 \
-SDL2-devel.x86_64  SDL2_image-devel.x86_64 SDL2_mixer-devel.x86_64 \
-SDL2_ttf-devel.x86_64 SDL2_net-devel.x86_64 boost-devel.x86_64 glew
+               SDL2-devel.x86_64  SDL2_image-devel.x86_64 SDL2_mixer-devel.x86_64 \
+               SDL2_ttf-devel.x86_64 SDL2_net-devel.x86_64 boost-devel.x86_64 glew  && \
+yum install -y python-libs python-devel python-pip && \
+yum install -y libXrender* libxcb* xcb* fontconfig* freetype* libXi* libXext* libX11* libSM* libICE* libglib* libpthread* gstreamer* \
+                   bison* flex* gperf* libicu-devel libxslt-devel ruby \
+                   libgcrypt-devel libgcrypt pciutils-devel nss-devel libXtst-devel gperf cups-devel pulseaudio-libs-devel libgudev1-devel systemd-devel libcap-devel alsa-lib-devel flex bison ruby gcc-c++ dbus libXrandr-devel libXcomposite-devel libXcursor-devel dbus-devel fontconfig-devel && \
+yum install -y libxslt libxml2 libxml2-devel libxslt-devel cmake3 openssl*
 
 # install same nVidia drivers as in Lab
 # If you are using at home you may need to change the driver version to match your own
@@ -39,12 +42,6 @@ RUN cd /tmp && \
     git clone --recursive --branch adsk-contrib/vfx/5.6.1 https://github.com/autodesk-forks/qtx11extras.git qt5/qtx11extras && \
     git clone --recursive --branch 5.6 https://codereview.qt-project.org/pyside/pyside-setup pyside-setup
 
-# will move this earlier in next build
-RUN  yum install -y python-libs python-devel python-pip && \
-    yum install -y libXrender* libxcb* xcb* fontconfig* freetype* libXi* libXext* libX11* libSM* libICE* libglib* libpthread* gstreamer* \
-                   bison* flex* gperf* libicu-devel libxslt-devel ruby \
-                   libgcrypt-devel libgcrypt pciutils-devel nss-devel libXtst-devel gperf cups-devel pulseaudio-libs-devel libgudev1-devel systemd-devel libcap-devel alsa-lib-devel flex bison ruby gcc-c++ dbus libXrandr-devel libXcomposite-devel libXcursor-devel dbus-devel fontconfig-devel && \
-    yum install -y libxslt libxml2 libxml2-devel libxslt-devel cmake3 openssl*
 
 # Configure, build and install Autodesk-forked Qt5
 RUN cd /tmp/qt5 && \
