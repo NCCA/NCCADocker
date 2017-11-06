@@ -7,11 +7,11 @@ ARG nvidiaRun=NVIDIA-Linux-x86_64-375.66.run
 ARG nvidiaLocation=http://us.download.nvidia.com/XFree86/Linux-x86_64/375.66/NVIDIA-Linux-x86_64-375.66.run
 
 # Update Yum 
-RUN apt-get update && apt-get install -y wget build-essential clang \
-    git cmake mono-devel mono-dmcs apt-utils module-init-tools kmod sudo \
-    libpangocairo-1.0-0 libnss* libnss3* libxi libxi-dev libxcursor-dev libxss-dev \
-    libxcomposite-dev libasound2-dev libxdamage-dev libx* libxtst-dev libatk1.0-dev \
-    libXrandr libxrandr-dev
+RUN apt-get update && apt-get install -y wget build-essential clang 
+RUN apt-get install -y git cmake mono-devel mono-dmcs apt-utils module-init-tools kmod sudo vim 
+RUN apt-get install -y    libpangocairo-1.0-0  libnss3*  libxi-dev libxcursor-dev libxss-dev 
+RUN apt-get install -y    libxcomposite-dev libasound2-dev libxdamage-dev  libxtst-dev libatk1.0-dev libxrandr-dev 
+RUN apt-get install -y    qtcreator  
 
 # install same nVidia drivers as in Lab
 # If you are using at home you may need to change the driver version to match your own
