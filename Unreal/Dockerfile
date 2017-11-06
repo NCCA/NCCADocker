@@ -2,38 +2,37 @@
 FROM ubuntu
 # Dockerfile author / maintainer 
 MAINTAINER Jon Macey  <jmacey@bournemouth.ac.uk> 
+# Set some arguments for finding the nvidia drivers
+ARG nvidiaRun=NVIDIA-Linux-x86_64-375.66.run
+ARG nvidiaLocation=http://us.download.nvidia.com/XFree86/Linux-x86_64/375.66/NVIDIA-Linux-x86_64-375.66.run
 
 # Update Yum 
-RUN apt-get update 
-RUN apt-get install -y wget
+RUN apt-get update && apt-get install -y wget build-essential clang \
+    git cmake mono-devel mono-dmcs apt-utils module-init-tools kmod sudo \
+    libpangocairo-1.0-0 libnss* libnss3* libxi libxi-dev libxcursor-dev libxss-dev \
+    libxcomposite-dev libasound2-dev libxdamage-dev libx* libxtst-dev libatk1.0-dev \
+    libXrandr libxrandr-dev
 
-# install dev tools
-RUN apt-get install -y build-essential
-RUN apt-get install -y clang
-RUN apt-get install -y git
-RUN apt-get install -y cmake
-RUN apt-get install -y mono-devel
-RUN apt-get install -y mono-dmcs
-# Need this for nVidia driver install
-RUN apt-get install -y apt-utils module-init-tools 
-RUN apt-get install -y kmod
 # install same nVidia drivers as in Lab
 # If you are using at home you may need to change the driver version to match your own
-RUN cd /tmp && \
-wget http://us.download.nvidia.com/XFree86/Linux-x86_64/375.66/NVIDIA-Linux-x86_64-375.66.run && \
-chmod +x NVIDIA-Linux-x86_64-375.66.run && \
-./NVIDIA-Linux-x86_64-375.66.run  -s -N --no-kernel-module && \
-rm NVIDIA-Linux-x86_64-375.66.run
+RUN cd /opt && \
+  wget ${nvidiaLocation}   && \
+  chmod +x $nvidiaRun  && \
+  ./$nvidiaRun  -s -N --no-kernel-module  && \
+  rm $nvidiaRun
 # Clone and build Unreal
 
 #thin up the whole images taken from here https://github.com/tweakmy/ue4-in-docker/blob/master/Dockerfile
-RUN apt-get autoremove
-RUN apt-get autoclean
-RUN useradd -ms /bin/bash ncca
-RUN adduser ncca sudo
+RUN apt-get autoremove && apt-get autoclean
+#RUN useradd -ms /bin/bash ncca && adduser ncca sudo
+RUN groupadd -r ncca  -g 901 && useradd ncca  -u 901 -r -g ncca 
+RUN echo "ncca ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 # Setup  Home
 WORKDIR /home/ncca
+RUN chown ncca:ncca /home/ncca
 ENV HOME /home/ncca
+USER ncca
 # add qt to path
 #ENV PATH=${PATH}:/opt/qt/bin
 

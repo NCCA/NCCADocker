@@ -10,4 +10,4 @@ download="http://us.download.nvidia.com/XFree86/Linux-x86_64/$nvVersion/NVIDIA-L
 # run is the command to chmod +x and run in the docker file
 run="NVIDIA-Linux-x86_64-$nvVersion.run"
 # now run docker passing in these arguments
-docker build --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download -t jmacey/nccabase --rm . 
+docker build --no-cache --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download -t jmacey/nccabase --rm . 
