@@ -21,7 +21,8 @@ flex bison ruby gcc-c++ dbus libXrandr-devel libXcomposite-devel \
 libXcursor-devel dbus-devel fontconfig-devel  \
 libxslt libxml2 libxml2-devel libxslt-devel cmake3 openssl*  \
 xorg-x11-drv-nouveau && yum install -y qt-creator  \
-mesa-*
+mesa-* && \
+alias qmake='qmake-qt5'
 
 WORKDIR /home/ncca
 ENV HOME /home/ncca
