@@ -30,7 +30,8 @@ RUN yum install -y \
     libXinerama libXau libxcb \
     libpthread libc libdl \
     libz librt libSM \
-    libICE libutil libssl libcrypto libGLU
+    libICE libutil libssl libcrypto libGLU libXcomposite libxslt \
+    pulseaudio-libs libGL-devel 
  
 WORKDIR /home/ncca
 ENV HOME /home/ncca
