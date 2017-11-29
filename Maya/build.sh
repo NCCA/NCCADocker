@@ -11,8 +11,8 @@ fi
 lsmod | grep nouveau &>/dev/null
 
 if [ $? -eq 0 ]; then
-    echo 'Found installed nouveau driver'
-    dockerFile="Dockerfile.nouveau"
+    echo 'Found installed nouveau driver maya will not work with this'
+    exit 1 
 fi
 
 if [ "$dockerFile" == "none"  ]; then
@@ -37,12 +37,7 @@ then
     # now run docker passing in these arguments
     #docker build --no-cache --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download -t jmacey/maya  --rm .
     echo $run $nvVersion
-    docker build  --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download -t jmacey/maya   .
-
-elif [ "$dockerFile" == "Dockerfile.nouveau" ]
-then
-    echo "Running Docker"
-    docker build --no-cache  -t jmacey/maya --rm -f Dockerfile.nouveau .
+    docker build  --no-cache --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download --rm  -t jmacey/maya    .
 fi
 
 
