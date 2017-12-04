@@ -29,14 +29,11 @@ cd /opt && \
 wget ${nvidiaLocation} &>/dev/null && \
 chmod +x $nvidiaRun  && \
 ./$nvidiaRun  -s -N --no-kernel-module &>/dev/null && \   
-rm $nvidiaRun  && \
-dbus-uuidgen > /var/lib/dbus/machine-id && \
-echo "MAYA_DISABLE_CIP=1" >> ~/maya/2017/Maya.env && \
-echo "LC_ALL=C" >> ~/maya/2017/Maya.env && \
-echo "MAYA_OGS_GPU_MEMORY_LIMIT = 1024" >> ~/maya/2017/Maya.env
+rm $nvidiaRun  
 
 WORKDIR /home/ncca
 ENV HOME /home/ncca
 ENV QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
 # set default command
-ENTRYPOINT ["/bin/bash"]
+SHELL ["/bin/bash","-c"]
+

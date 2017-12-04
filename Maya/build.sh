@@ -37,7 +37,7 @@ then
     # now run docker passing in these arguments
     #docker build --no-cache --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download -t jmacey/maya  --rm .
     echo $run $nvVersion
-    docker build  --no-cache --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download --rm  -t jmacey/maya    .
+    docker build  --no-cache --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download --rm  -t jmacey/dccbase    .
 fi
 
 
