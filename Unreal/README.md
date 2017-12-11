@@ -2,20 +2,16 @@
 
 This is a base docker system with all of the pre-requiste tools installed.
 
-Post install run the docker and update timezone (needed for Mono)
+First we need to setup timezone as it is not done in the build, this is needed by the unreal build scripts and git
 ``` 
 sudo apt-get install tzdata
 ```
+Follow the instructions and choose Europe and London.
 
 You will need to download the source yourself as it is password protected via git.
 
-First we need to setup timezone as it is not done in the build, this is needed by the unreal build scripts and git
 
-```
-sudo apt-get install tzdata
-```
 
-Follow the instructions and choose Europe and London.
 
 Now download and build the engine.
 
