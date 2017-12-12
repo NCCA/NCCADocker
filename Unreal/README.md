@@ -11,8 +11,6 @@ Follow the instructions and choose Europe and London.
 You will need to download the source yourself as it is password protected via git.
 
 
-
-
 Now download and build the engine.
 
 ```
