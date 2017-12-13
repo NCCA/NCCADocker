@@ -39,7 +39,9 @@ then
     # now run docker passing in these arguments
     #docker build --no-cache --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download -t jmacey/maya  --rm .
     echo $run $nvVersion
-    docker build  --no-cache --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download --build-arg cores=$cores --rm  -t jmacey/osl  .
+    # create a volume to store our osl stuff, this is a symlink at work so saves space will be mounted on /opt
+    docker volume create osl
+    docker build  --no-cache --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download --build-arg cores=$cores --rm  -t jmacey/osl --mount  source=osl,target=/opt .
 fi
 
 
