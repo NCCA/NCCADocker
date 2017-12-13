@@ -1,7 +1,7 @@
 #!/bin/bash
 # find how many cores we have for building 
-cores=`getconf _NPROCESSORS_ONLN`
-echo "using " $cores "cores"
+cores="$((`getconf _NPROCESSORS_ONLN` / 2))"
+echo "using" $cores "cores"
 # first check if we have an nvidia driver installed
 dockerFile="none"
 

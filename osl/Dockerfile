@@ -46,7 +46,7 @@ make install && rm -rf oiio*
 # llvm (broken in repo!)
 RUN cd /root && svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm && \
 cd llvm/tools && svn co http://llvm.org/svn/llvm-project/cfe/trunk clang && \
-cd ../.. && mkdir build && cd build && cmake3 -G "Unix Makefiles" ../llvm && \
+cd ../.. && mkdir build && cd build && cmake3 -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" ../llvm && \
 make -j $cores && make install 
 # Open Shading Language
 RUN cd && wget -O osl.zip https://github.com/imageworks/OpenShadingLanguage/archive/master.zip && \
