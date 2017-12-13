@@ -23,34 +23,34 @@ chmod +x $nvidiaRun  && \
 rm $nvidiaRun  
 
 # OpenEXR
-RUN cd /opt && \
+RUN cd /root && \
 wget -O openexr.zip  https://github.com/openexr/openexr/archive/develop.zip &>/dev/null  && \
-unzip openexr.zip && cd /opt/openexr-develop/IlmBase/ && ./bootstrap && ./configure && \
+unzip openexr.zip && cd /root/openexr-develop/IlmBase/ && ./bootstrap && ./configure && \
 make -j $cores && make install && echo /usr/local/lib > /etc/ld.so.conf.d/OpenEXR.conf && ldconfig && \
-cd /opt/openexr-develop/OpenEXR && ./bootstrap && ./configure && \
+cd /root/openexr-develop/OpenEXR && ./bootstrap && ./configure && \
 make -j $cores && make install && \
-cd /opt/openexr-develop/PyIlmBase && ./bootstrap && ./configure && \
-make -j4 && make install && rm -rf /opt/openexr* 
+cd /root/openexr-develop/PyIlmBase && ./bootstrap && ./configure && \
+make -j4 && make install && cd /root && rm -rf /root/openexr* 
 
 # OpenColourIO
-RUN cd /opt && wget -O ocio.zip https://github.com/imageworks/OpenColorIO/archive/master.zip && \
-unzip ocio.zip && cd /opt/OpenColorIO-master && mkdir build && cd build && \
+RUN cd /root && wget -O ocio.zip https://github.com/imageworks/OpenColorIO/archive/master.zip && \
+unzip ocio.zip && cd /root/OpenColorIO-master && mkdir build && cd build && \
 cmake3 .. && make -j $cores && make install && rm -rf OpenColorIO* && \
-cd /opt && rm -rf *.zip
+cd /root && rm -rf *.zip
 
 # OpenImage IO
-RUN cd /opt && wget -O oiio.zip https://github.com/OpenImageIO/oiio/archive/master.zip &>/dev/null && \
-unzip oiio.zip && cd /opt/oiio-master && \
+RUN cd /root && wget -O oiio.zip https://github.com/OpenImageIO/oiio/archive/master.zip &>/dev/null && \
+unzip oiio.zip && cd /root/oiio-master && \
 mkdir build && cd build && cmake3 -DSTOP_ON_WARNING=0 .. && make -j $cores && \
-make install && cd /opt && rm -rf oiio*
+make install && cd /root && rm -rf oiio*
 
 # llvm (broken in repo!)
-RUN cd /opt && svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm && \
+RUN cd /root && svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm && \
 cd llvm/tools && svn co http://llvm.org/svn/llvm-project/cfe/trunk clang && \
 cd ../.. && mkdir build && cd build && cmake3 -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" ../llvm && \
 make -j $cores && make install 
 # Open Shading Language
-RUN cd /opt && wget -O osl.zip https://github.com/imageworks/OpenShadingLanguage/archive/master.zip && \
+RUN cd && wget -O osl.zip https://github.com/imageworks/OpenShadingLanguage/archive/master.zip && \
 unzip osl.zip && cd OpenShadingLanguage-master 
 
 
