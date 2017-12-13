@@ -1,5 +1,7 @@
 #!/bin/bash
-
+# find how many cores we have for building 
+cores=`getconf _NPROCESSORS_ONLN`
+echo "using " $cores "cores"
 # first check if we have an nvidia driver installed
 dockerFile="none"
 
@@ -37,7 +39,7 @@ then
     # now run docker passing in these arguments
     #docker build --no-cache --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download -t jmacey/maya  --rm .
     echo $run $nvVersion
-    docker build  --no-cache --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download --rm  -t jmacey/osl  .
+    docker build  --no-cache --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download --build-arg cores=$cores --rm  -t jmacey/osl  .
 fi
 
 
