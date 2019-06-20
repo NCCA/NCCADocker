@@ -41,7 +41,7 @@ then
     echo $run $nvVersion
     # create a volume to store our osl stuff, this is a symlink at work so saves space will be mounted on /opt
     docker volume create osl
-    docker build  --no-cache --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download --build-arg cores=$cores --rm  -t jmacey/osl --mount  source=osl,target=/opt .
+    docker build  --no-cache --build-arg nvidiaRun=$run --build-arg nvidiaLocation=$download --build-arg cores=$cores --rm  -t jmacey/osl  .
 fi
 
 

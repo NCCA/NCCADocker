@@ -51,7 +51,7 @@ cd ../.. && mkdir build && cd build && cmake3 -DCMAKE_BUILD_TYPE=Release -G "Uni
 make -j $cores && make install 
 # Open Shading Language
 RUN cd && wget -O osl.zip https://github.com/imageworks/OpenShadingLanguage/archive/master.zip && \
-unzip osl.zip && cd OpenShadingLanguage-master 
+unzip osl.zip && cd OpenShadingLanguage-master  && mkdir build 
 
 
 WORKDIR /home/ncca
